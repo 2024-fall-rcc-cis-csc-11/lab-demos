@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Mention chmod
+
+echo "Compiling first ..."
+g++ -std=c++23 -Wall -pedantic first.cpp -c -o first.o || exit $?
+
+echo "Compiling second ..."
+gcc -Wall -pedantic second.c -c -o second.o || exit $?
+
+echo "Assembling third ..."
+yasm -gdwarf2 -f elf64 third.asm -o third.o || exit $?
+
+echo "Linking ..."
+g++ -m64 -std=c++17 -gdwarf-2 -no-pie -z noexecstack first.o second.o third.o -o main
+
+echo "Done!"
+exit 0
+
